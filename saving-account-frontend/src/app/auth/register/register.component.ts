@@ -1,18 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {AuthService} from '../../services/auth.service';
-import {Person} from '../../interface/person.interface';
+import { AuthService } from '../../services/auth.service';
+import { Person } from '../../interface/person.interface';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   standalone: false,
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy {
   registerForm: FormGroup;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -20,15 +22,18 @@ export class RegisterComponent {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
-    this.registerForm = this.fb.group({
-      citizenId: ['', Validators.required],
-      thaiName: ['', Validators.required],
-      englishName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
-      pin: ['', [Validators.required, Validators.maxLength(6)]]
-    }, { validators: this.passwordMatchValidator });
+    this.registerForm = this.fb.group(
+      {
+        citizenId: ['', Validators.required],
+        thaiName: ['', Validators.required],
+        englishName: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', Validators.required],
+        confirmPassword: ['', Validators.required],
+        pin: ['', [Validators.required, Validators.maxLength(6)]],
+      },
+      { validators: this.passwordMatchValidator }
+    );
   }
 
   passwordMatchValidator(group: FormGroup) {
@@ -43,25 +48,39 @@ export class RegisterComponent {
     this.registerForm.get('pin')?.setValue(input.value, { emitEvent: false });
   }
 
-
   onSubmit() {
     if (this.registerForm.valid) {
-      const { citizenId, thaiName, englishName, email, password, pin } = this.registerForm.value;
-      this.authService.register({ citizenId, thaiName, englishName, email, password, pin } as Person).subscribe({
-        next: () => {
-          this.snackBar.open('Registration successful', 'Close', {
-            duration: 2000,
-            panelClass: ['success-snackbar'],
-          });
-          this.router.navigate(['/login']);
-        },
-        error: () => {
-          this.snackBar.open('Registration failed', 'Close', {
-            duration: 2000,
-            panelClass: ['error-snackbar'],
-          });
-        }
-      });
+      const { citizenId, thaiName, englishName, email, password, pin } =
+        this.registerForm.value;
+      this.authService
+        .register({
+          citizenId,
+          thaiName,
+          englishName,
+          email,
+          password,
+          pin,
+        } as Person)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.snackBar.open('Registration successful', 'Close', {
+              duration: 2000,
+              panelClass: ['success-snackbar'],
+            });
+            this.router.navigate(['/login']);
+          },
+          error: () => {
+            this.snackBar.open('Registration failed', 'Close', {
+              duration: 2000,
+              panelClass: ['error-snackbar'],
+            });
+          },
+        });
     }
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

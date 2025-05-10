@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransferService } from '../../services/transfer.service'; // Import the transfer service
 import { Router } from '@angular/router';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {MatDialog} from '@angular/material/dialog';
-import {TransferConfirmationComponent} from '../../utils/transfer-confirmation/transfer-confirmation.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { TransferConfirmationComponent } from '../../utils/transfer-confirmation/transfer-confirmation.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-transfer',
@@ -12,8 +13,9 @@ import {TransferConfirmationComponent} from '../../utils/transfer-confirmation/t
   standalone: false,
   templateUrl: './transfer.component.html',
 })
-export class TransferComponent implements OnInit {
+export class TransferComponent implements OnInit, OnDestroy {
   transferForm: FormGroup;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -26,7 +28,7 @@ export class TransferComponent implements OnInit {
       recipientAccountNumber: ['', [Validators.required]],
       pin: ['', [Validators.required]],
       amount: ['', [Validators.required, Validators.min(1)]],
-      message: ['']
+      message: [''],
     });
   }
 
@@ -40,25 +42,32 @@ export class TransferComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
-          this.transferService.transferMoney(transferData).subscribe({
-            next: (response) => {
-              console.log('Transfer successful:', response);
-              this.snackBar.open(response, 'Close', {
-                duration: 2000,
-                panelClass: ['success-snackbar'],
-              });
-              this.router.navigate(['/dashboard']); // Redirect to dashboard
-            },
-            error: (err) => {
-              console.error('Transfer failed:', err);
-              this.snackBar.open(err?.error?.message??'Transfer failed','Close',{
-                duration: 2000,
-                panelClass: ['error-snackbar'],
-              })
-            }
-          });
+          this.transferService
+            .transferMoney(transferData)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+              next: (response) => {
+                console.log('Transfer successful:', response);
+                this.snackBar.open(response, 'Close', {
+                  duration: 2000,
+                  panelClass: ['success-snackbar'],
+                });
+                this.router.navigate(['/dashboard']); // Redirect to dashboard
+              },
+              error: (err) => {
+                console.error('Transfer failed:', err);
+                this.snackBar.open(
+                  err?.error?.message ?? 'Transfer failed',
+                  'Close',
+                  {
+                    duration: 2000,
+                    panelClass: ['error-snackbar'],
+                  }
+                );
+              },
+            });
         }
-      })
+      });
     }
   }
 
@@ -78,5 +87,10 @@ export class TransferComponent implements OnInit {
 
   get message() {
     return this.transferForm.get('message');
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
