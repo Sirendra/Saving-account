@@ -1,0 +1,34 @@
+<mat-card class="form-container">
+  <form [formGroup]="depositForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Select Customer</mat-label>
+      <mat-select formControlName="customerId" (selectionChange)="onCustomerSelect($event.value)">
+        <mat-option *ngFor="let customer of customers" [value]="customer.id">
+          {{ customer.englishName }} ({{ customer.accountNumber }})
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div *ngIf="selectedCustomer">
+      <p><strong>Thai Name:</strong> {{ selectedCustomer.thaiName }}</p>
+      <p><strong>English Name:</strong> {{ selectedCustomer.englishName }}</p>
+      <p><strong>Account Number:</strong> {{ selectedCustomer.accountNumber }}</p>
+      <p><strong>Current Balance:</strong> {{ selectedCustomer.balance | currency:'THB' }}</p>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Deposit Amount</mat-label>
+      <input matInput type="number" step="0.01" formControlName="amount" />
+      <mat-error *ngIf="depositForm.get('amount')?.hasError('required')">
+        Amount is required
+      </mat-error>
+      <mat-error *ngIf="depositForm.get('amount')?.hasError('min')">
+        Must be greater than 0
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="depositForm.invalid">
+      Deposit
+    </button>
+  </form>
+</mat-card>

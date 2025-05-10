@@ -1,0 +1,22 @@
+<mat-grid-list cols="3" rowHeight="1:1" gutterSize="8px">
+  <mat-grid-tile *ngFor="let person of pendingPersons">
+    <mat-card class="user-card">
+      <div class="user-card-header">
+        <h3>{{ person.thaiName }}</h3>
+        <p>Citizen ID: {{ person.citizenId }}</p>
+        <p>Email: {{ person.englishName }}</p>
+      </div>
+      <mat-card-content>
+        <p><strong>Email:</strong> {{ person.email }}</p>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <input matInput type="number" placeholder="Initial Deposit" [(ngModel)]="formInputs[person.id]" />
+        </mat-form-field>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="approve(person.id)">Approve</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

@@ -1,0 +1,64 @@
+
+<div class="statement-container">
+  <mat-card class="statement-form-card">
+    <form [formGroup]="statementForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Month</mat-label>
+        <input matInput type="number" formControlName="month" placeholder="e.g., 5" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Year</mat-label>
+        <input matInput type="number" formControlName="year" placeholder="e.g., 2025" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>PIN</mat-label>
+        <input matInput type="password" formControlName="pin" />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="statementForm.invalid" class="full-width">
+        Request Statement
+      </button>
+    </form>
+  </mat-card>
+
+  <mat-card *ngIf="statementData.length > 0" class="statement-table-card mt-4">
+    <table mat-table [dataSource]="statementData" class="mat-elevation-z8" style="width: 100%">
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Date </th>
+        <td mat-cell *matCellDef="let row"> {{ row.dateTime | date }} </td>
+      </ng-container>
+      <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef> Time </th>
+        <td mat-cell *matCellDef="let row"> {{ row.dateTime | splitDateTime: 'time' }}  </td>
+      </ng-container>
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef> Code </th>
+        <td mat-cell *matCellDef="let row"> {{ row.transactionCode }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="channel">
+        <th mat-header-cell *matHeaderCellDef> Channel </th>
+        <td mat-cell *matCellDef="let row"> {{ row.channel }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef> Credit/Debit </th>
+        <td mat-cell *matCellDef="let row"> {{ row.type==='Credit'?row.amount:(row.amount*-1) | number:'1.2-2' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="balance">
+        <th mat-header-cell *matHeaderCellDef> Balance </th>
+        <td mat-cell *matCellDef="let row"> {{ row.balance | number:'1.2-2' }} </td>
+      </ng-container>
+      <ng-container matColumnDef="remark">
+        <th mat-header-cell *matHeaderCellDef> Remark </th>
+        <td mat-cell *matCellDef="let row"> {{ row.remark }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['date','time','code','channel', 'amount', 'balance','remark']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['date','time','code', 'channel', 'amount', 'balance','remark'];"></tr>
+    </table>
+  </mat-card>
+</div>

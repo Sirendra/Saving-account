@@ -1,0 +1,13 @@
+<mat-card class="account-card">
+  <mat-card-title class="account-title">
+    👋 Welcome, <span class="thai-name">{{ accountInfo?.thaiName }}</span>
+    (<span class="english-name">{{ accountInfo?.englishName }}</span>)
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <mat-card-content class="account-content">
+    <p><strong>Citizen ID:</strong> <span class="value">{{ accountInfo?.citizenId }}</span></p>
+    <p><strong>Account Number:</strong> <span class="value">{{ accountInfo?.accountNumber }}</span></p>
+    <p><strong>Email:</strong> <span class="value">{{ accountInfo?.email }}</span></p>
+    <p><strong>Balance:</strong> <span class="balance">₹{{ accountInfo?.balance | number:'1.2-2' }}</span></p>
+  </mat-card-content>
+</mat-card>

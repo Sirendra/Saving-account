@@ -1,0 +1,49 @@
+.account-card {
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+  background-color: var(--background);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 1.5rem auto;
+  border: 1px solid var(--border);
+}
+
+.account-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.account-content {
+  margin-top: 1.25rem;
+  color: var(--text-secondary);
+}
+
+.account-content p {
+  font-size: 1rem;
+  margin: 0.75rem 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.value {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.balance {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.thai-name {
+  color: var(--primary); /* Using primary color for Thai name */
+}
+
+.mat-divider {
+  margin: 1rem 0;
+  background-color: var(--border);
+}

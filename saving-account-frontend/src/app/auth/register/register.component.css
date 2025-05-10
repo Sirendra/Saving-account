@@ -1,0 +1,49 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--surface)!important;
+}
+
+mat-card.register-card {
+  width: 100%;
+  max-width: 800px;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--background)!important;
+  border: 1px solid var(--border)!important;
+}
+
+.register-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--text-primary)!important;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+button[type="submit"] {
+  margin-top: 2rem;
+  width: 100%;
+  background-color: var(--primary)!important;
+  color: var(--primary-contrast)!important;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--primary-dark)!important;
+}
+
+mat-error {
+  font-size: 12px;
+  color: var(--error)!important;
+}

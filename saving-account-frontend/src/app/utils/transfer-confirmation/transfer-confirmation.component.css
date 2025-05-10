@@ -1,0 +1,30 @@
+.confirm-transfer-container {
+  max-width: 500px;
+  margin: auto auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.dialog-content {
+  width: 100%;
+  padding: 1rem 0;
+}
+
+
+.dialog-actions {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.dialog-actions button:last-child {
+  margin-left: 10px;
+}

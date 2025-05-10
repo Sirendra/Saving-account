@@ -1,0 +1,34 @@
+<mat-card class="transfer-card">
+  <mat-card-title class="text-center"><strong><h2>Transfer Money</h2></strong></mat-card-title>
+  <div class="form-container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="transferForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Recipient Account Number</mat-label>
+        <input matInput formControlName="recipientAccountNumber" required />
+        <mat-error *ngIf="recipientAccountNumber?.hasError('required')">Account number is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Amount</mat-label>
+        <input matInput formControlName="amount" type="number" required />
+        <mat-error *ngIf="amount?.hasError('required')">Amount is required</mat-error>
+        <mat-error *ngIf="amount?.hasError('min')">Amount must be greater than 0</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>PIN</mat-label>
+        <input matInput formControlName="pin" required maxlength="6" type="password" pattern="^[0-9]{6}$"
+               (input)="onPinInput($event)" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Message (optional)</mat-label>
+        <input matInput formControlName="message" />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="transferForm.invalid" class="full-width">
+        Transfer
+      </button>
+    </form>
+  </div>
+</mat-card>

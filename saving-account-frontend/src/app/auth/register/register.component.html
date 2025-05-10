@@ -1,0 +1,51 @@
+<div class="register-container">
+  <mat-card class="register-card">
+    <h2 class="register-title">Register</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Citizen ID</mat-label>
+          <input matInput type="number" formControlName="citizenId" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Thai Name</mat-label>
+          <input matInput formControlName="thaiName" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>English Name</mat-label>
+          <input matInput formControlName="englishName" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput type="password" formControlName="confirmPassword" required />
+          <mat-error *ngIf="registerForm.hasError('passwordMismatch')">
+            Passwords do not match
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>PIN</mat-label>
+          <input matInput formControlName="pin" required maxlength="6" type="password" pattern="^[0-9]{6}$"
+                 (input)="onPinInput($event)" />
+        </mat-form-field>
+      </div>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">
+        Register
+      </button>
+    </form>
+  </mat-card>
+</div>

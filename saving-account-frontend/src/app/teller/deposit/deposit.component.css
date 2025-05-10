@@ -1,0 +1,35 @@
+.form-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  margin-bottom: 16px;
+}
+
+mat-card {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+mat-dialog-title {
+  text-align: center;
+}
+
+mat-dialog-content {
+  padding: 16px;
+}
+
+mat-dialog-actions {
+  justify-content: space-between;
+}
+
+button[mat-raised-button] {
+  margin-top: 20px;
+  width: 100%;
+}

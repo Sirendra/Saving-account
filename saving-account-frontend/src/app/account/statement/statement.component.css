@@ -1,0 +1,99 @@
+.statement-form-card {
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  background-color: var(--background);
+  border: 1px solid var(--border);
+}
+
+.statement-container {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.statement-table-card {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 2rem; /* Adding space between the form and table */
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  background-color: var(--background);
+  border: 1px solid var(--border);
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-form-field .mat-input-element {
+  padding-left: 12px !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+.mat-raised-button {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+.mat-raised-button:hover {
+  background-color: var(--primary-dark);
+}
+
+.mat-table {
+  width: 100%;
+  margin-top: 1rem;
+  table-layout: fixed; /* Ensuring uniform column width */
+}
+
+.mat-header-row {
+  background-color: var(--primary-light);
+}
+
+.mat-header-cell {
+  font-weight: bold;
+  color: var(--primary);
+  text-align: left; /* Aligning the header content to the left */
+}
+
+.mat-row {
+  background-color: var(--surface);
+}
+
+.mat-cell {
+  color: var(--text-primary);
+  text-align: left; /* Aligning the cell content to the left */
+}
+
+.mat-row:hover {
+  background-color: var(--primary-light);
+}
+
+@media (max-width: 768px) {
+  .statement-container {
+    padding: 1rem;
+  }
+
+  .statement-form-card, .statement-table-card {
+    padding: 1.5rem;
+    width: 100%;
+  }
+
+  .mat-raised-button {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
